@@ -1,0 +1,23 @@
+version: "3"
+services:
+  jenkins:
+    image: jenkins_eksctl
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    container_name: jenkins
+    privileged: true
+    user: root
+    ports:
+      - 8080:8080
+      - 50000:50000
+    environment:
+      TZ: Asia/Bangkok
+    volumes:
+      - ~/.ssh:/root/.ssh
+      - ${PWD}/.aws:/root/.aws
+      - ${PWD}/.kube:/root/.kube
+
+      - ${PWD}/jenkins/home/jenkins_configuration:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
